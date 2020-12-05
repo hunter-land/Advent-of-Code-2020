@@ -38,9 +38,11 @@ int main() {
 		for (char c : e.password) {
 			count += c == e.c;
 		}
-		if (count >= e.min && count <= e.max) {
-			validCount++;
-		}
+//		if (count >= e.min && count <= e.max) {
+//			validCount++;
+//		}
+		validCount += (e.password[e.min - 1] == e.c) != (e.password[e.max - 1] == e.c);
+
 	}
 	std::cout << validCount << std::endl;
 	return 0;
