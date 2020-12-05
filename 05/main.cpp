@@ -4,13 +4,11 @@
 #include <vector>
 
 int main() {
-	std::vector<std::vector<bool>> seatsFound(1 << 3);
-	for (std::vector<bool> &row : seatsFound) {
-		row.resize(1 << 7);
-	}
+	std::vector<bool> seatsFound(8*128);
 
 	std::string line;
 	std::ifstream input("input.txt");
+	int lines = 0;
 	while (std::getline(input, line)) {
 		int row = 0;
 		for (int i = 0; i < 7; i++) {
@@ -25,17 +23,19 @@ int main() {
 			col |= (line[i] == 'R');
 		}
 		//std::cout << row << ", " << col << std::endl;
-		seatsFound[col][row] = true;
+		seatsFound[col + 8*row] = true;
+		lines++;
 	}
+	//std::cout << "Counted " << lines << " other boarding passes" << std::endl;
 
-	for (int col = 0; col < seatsFound.size(); col++) {
-		for (int row = 0; row < seatsFound[col].size(); row++) {
-			if (seatsFound[col][row] == false) {
-				std::cout << "row " << row << ", column " << col << " is unclaimed and may be your seat." << std::endl;
-			} else {
-				//std::cout << row * 8 + col << std::endl;
-			}
+	int highestID = 0;
+	for(int i = 1; i < seatsFound.size() - 1; i++) {
+		if (seatsFound[i]) {
+			highestID = std::max(highestID, i);
+		} else if (!seatsFound[i] && seatsFound[i-1] && seatsFound[i+1]) {
+			std::cout << "Your seat is row " << i/8 << " col " << i%8 << " id " << i << std::endl;
 		}
 	}
+	//std::cout << highestID << std::endl;
 	return 0;
 }
