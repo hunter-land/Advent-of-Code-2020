@@ -13,14 +13,16 @@ int main() {
 	}
 
 	//int row = 0, col = 0;
-	int dx = 3, dy = 1;
-	int trees = 0;
-	for (int row = dy, col = dx; row < map.size(); row += dy, col += dx) {
-		if (map[row % map.size()][col % map[0].size()] == '#') {
-			trees++;
+	for (int i = 0; i < 5; i++) {
+		int dx = 1 + 2*(i%4), dy = 1 + i/4;
+		int trees = 0;
+		for (int row = dy, col = dx; row < map.size(); row += dy, col += dx) {
+			if (map[row % map.size()][col % map[0].size()] == '#') {
+				trees++;
+			}
 		}
+	
+		std::cout << trees << std::endl;
 	}
-
-	std::cout << trees << std::endl;
 	return 0;
 }
